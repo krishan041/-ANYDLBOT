@@ -37,4 +37,4 @@ if __name__ == "__main__":
     
     loop.create_task(run_bot())
     web.run_app(app, port=port)
-    
+    loop.run_forever()
