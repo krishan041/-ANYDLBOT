@@ -44,6 +44,3 @@ class Config(object):
     PROCESS_MAX_TIMEOUT = 3600
     # watermark file
     DEF_WATER_MARK_FILE = ""
-Public code references from 9 repositories
-You can create or update your config.py file with this content. Ensure that the environment variables are correctly set before running your bot.
-
