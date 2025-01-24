@@ -5,7 +5,7 @@
 # the logging things
 import logging
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                    format='%(asctime)s - %(name)s - %(levellevel)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 import os
@@ -21,13 +21,14 @@ else:
 from translation import Translation
 
 import pyrogram
+from pyrogram import filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.sticker)
+@pyrogram.Client.on_message(pyrogram.filters.sticker)
 async def DownloadStickersBot(bot, update):
     TRChatBase(update.from_user.id, update.text, "DownloadStickersBot")
     if str(update.from_user.id) in Config.BANNED_USERS:
