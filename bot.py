@@ -25,10 +25,10 @@ if __name__ == "__main__":
                             api_hash=Config.API_HASH,
                             plugins=plugins)
     
-    Warrior.run()  # Start the bot first
-    
     app = web.Application()
     app.router.add_get('/', handle)
     
     port = int(os.environ.get("PORT", 8080))
     web.run_app(app, port=port)
+    
+    Warrior.run()  # Start the bot after the web server is running
