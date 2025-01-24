@@ -1,8 +1,6 @@
 import os
 
 class Config(object):
-    # get a token from https://chatbase.com
-    CHAT_BASE_TOKEN = os.environ.get("CHAT_BASE_TOKEN", "")
     # get a token from @BotFather
     TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
     # The Telegram API things
@@ -46,3 +44,6 @@ class Config(object):
     PROCESS_MAX_TIMEOUT = 3600
     # watermark file
     DEF_WATER_MARK_FILE = ""
+Public code references from 9 repositories
+You can create or update your config.py file with this content. Ensure that the environment variables are correctly set before running your bot.
+
