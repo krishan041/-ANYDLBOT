@@ -6,7 +6,7 @@ import logging
 from aiohttp import web
 import asyncio
 from config import Config
-from pyrogram import Client as TelegramClient
+from pyrogram import Client
 
 # Logging setup
 logging.basicConfig(
@@ -29,15 +29,17 @@ async def start_bot():
 
         # Plugin configuration
         plugins = dict(root="plugins")
-        
+
         # Initialize the bot
-        bot = TelegramClient(
-            session_name="@WebXBots",
+        bot = Client(
+            session_name=Config.SESSION_NAME,  # SESSION_NAME defined in config.py
             bot_token=Config.BOT_TOKEN,
             api_id=Config.API_ID,
             api_hash=Config.API_HASH,
             plugins=plugins
         )
+        
+        # Start the bot
         await bot.start()
         logger.info("Bot started successfully.")
         await asyncio.Event().wait()  # Keep the bot running
