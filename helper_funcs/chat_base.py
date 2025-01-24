@@ -7,7 +7,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
+from pyrogram import Client, Filters
 import os
 
 # the secret configuration specific things
@@ -19,7 +19,8 @@ else:
 # the Strings used for this "thing"
 from translation import Translation
 
-from pyrogram import Client, Filters
+from pyrogram import Client
+from pyrogram.filters import filters
 
 # the Telegram trackings
 from chatbase import Message
