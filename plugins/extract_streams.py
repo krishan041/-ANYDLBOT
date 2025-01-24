@@ -5,7 +5,7 @@
 # the logging things
 import logging
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                    format='%(asctime)s - %(name)s - %(levellevel)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 import asyncio
@@ -22,13 +22,14 @@ else:
 from translation import Translation
 
 import pyrogram
+from pyrogram import filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["extractstreams"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["extractstreams"]))
 async def extract_sub_title(bot, update):
     TRChatBase(update.from_user.id, update.text, "extract_st_reams")
     if str(update.from_user.id) not in Config.SUPER7X_DLBOT_USERS:
