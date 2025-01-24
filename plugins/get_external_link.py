@@ -5,7 +5,7 @@
 # the logging things
 import logging
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                    format='%(asctime)s - %(name)s - %(levellevel)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 from datetime import datetime
@@ -24,6 +24,7 @@ else:
 from translation import Translation
 
 import pyrogram
+from pyrogram import filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from helper_funcs.chat_base import TRChatBase
@@ -31,7 +32,7 @@ from helper_funcs.display_progress import progress_for_pyrogram
 from pydrive.drive import GoogleDrive
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["getlink"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["getlink"]))
 def get_link(bot, update):
     TRChatBase(update.from_user.id, update.text, "getlink")
     if str(update.from_user.id) in Config.BANNED_USERS:
@@ -40,7 +41,7 @@ def get_link(bot, update):
             text=Translation.ABUSIVE_USERS,
             reply_to_message_id=update.message_id,
             disable_web_page_preview=True,
-            parse_mode=pyrogram.ParseMode.HTML
+            parse_mode=pyrogram.enums.ParseMode.HTML
         )
         return
     logger.info(update.from_user)
@@ -111,12 +112,12 @@ def get_link(bot, update):
             else:
                 logger.info(t_response)
                 t_response_arry = t_response.decode("UTF-8").split("\n")[-1].strip()
-                #shorten_api_url = "http://ouo.io/api/{}?s={}".format(Config.OUO_IO_API_KEY, t_response_arry)
-                #adfulurl = requests.get(shorten_api_url).text
+                # shorten_api_url = "http://ouo.io/api/{}?s={}".format(Config.OUO_IO_API_KEY, t_response_arry)
+                # adfulurl = requests.get(shorten_api_url).text
         bot.edit_message_text(
             chat_id=update.chat.id,
             text=Translation.AFTER_GET_DL_LINK.format(t_response_arry, max_days),
-            parse_mode=pyrogram.ParseMode.HTML,
+            parse_mode=pyrogram.enums.ParseMode.HTML,
             message_id=a.message_id,
             disable_web_page_preview=True
         )
