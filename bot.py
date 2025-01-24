@@ -32,7 +32,7 @@ async def start_bot():
 
         # Initialize the bot
         bot = Client(
-            session_name=Config.SESSION_NAME,  # SESSION_NAME defined in config.py
+            "my_bot",  # This is the session name
             bot_token=Config.BOT_TOKEN,
             api_id=Config.API_ID,
             api_hash=Config.API_HASH,
