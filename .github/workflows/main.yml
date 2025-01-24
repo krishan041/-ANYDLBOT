@@ -29,7 +29,8 @@ jobs:
 
     - name: Run bot
       env:
-        API_ID: ${{ 27536109 }}
-        API_HASH: ${{ b84d7d4dfa33904d36b85e1ead16bd63 }}
-        OWNER_ID: ${{ 6428531614 }}
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        API_ID: 27536109
+        API_HASH: b84d7d4dfa33904d36b85e1ead16bd63
+        OWNER_ID: 6428531614
       run: python3 bot.py
