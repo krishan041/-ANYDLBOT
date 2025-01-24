@@ -27,7 +27,7 @@ from chatbase import Message
 
 
 def TRChatBase(chat_id, message_text, intent):
-    msg = Message(api_key=Config.CHAT_BASE_TOKEN, "sk_3b8bf7f8bcf776f90f4995b065990cfbcd8cd2189faba85f"
+    msg = Message(api_key=Config.CHAT_BASE_TOKEN,
               platform="Telegram",
               version="1.3",
               user_id=chat_id,
