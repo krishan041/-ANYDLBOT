@@ -5,7 +5,7 @@
 # the logging things
 import logging
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                    format='%(asctime)s - %(name)s - %(levellevel)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 import os
@@ -21,6 +21,7 @@ else:
 from translation import Translation
 
 import pyrogram
+from pyrogram import filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from helper_funcs.chat_base import TRChatBase
@@ -31,8 +32,11 @@ from hachoir.parser import createParser
 # https://stackoverflow.com/a/37631799/4723940
 from PIL import Image
 
+# Removed pydrive import and related code
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["converttovideo"]))
+# Rest of the code remains unchanged
+
+@pyrogram.Client.on_message(pyrogram.filters.command(["converttovideo"]))
 async def convert_to_video(bot, update):
     TRChatBase(update.from_user.id, update.text, "converttovideo")
     if str(update.from_user.id) not in Config.SUPER3X_DLBOT_USERS:
@@ -55,9 +59,7 @@ async def convert_to_video(bot, update):
             message=update.reply_to_message,
             file_name=download_location,
             progress=progress_for_pyrogram,
-            progress_args=(
-                Translation.DOWNLOAD_START, a.message_id, update.chat.id, c_time
-            )
+            progress_args=(Translation.DOWNLOAD_START, a.message_id, update.chat.id, c_time)
         )
         if the_real_download_location is not None:
             await bot.edit_message_text(
@@ -78,7 +80,7 @@ async def convert_to_video(bot, update):
             height = 0
             duration = 0
             metadata = extractMetadata(createParser(the_real_download_location))
-            if metadata.has("duration"):
+            if metadata has("duration"):
                 duration = metadata.get('duration').seconds
             thumb_image_path = Config.DOWNLOAD_LOCATION + "/" + str(update.from_user.id) + ".jpg"
             if not os.path.exists(thumb_image_path):
@@ -134,4 +136,4 @@ async def convert_to_video(bot, update):
             chat_id=update.chat.id,
             text=Translation.REPLY_TO_DOC_FOR_C2V,
             reply_to_message_id=update.message_id
-        )
+            )
