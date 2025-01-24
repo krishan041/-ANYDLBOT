@@ -20,7 +20,7 @@ else:
 from translation import Translation
 
 from pyrogram import Client
-from pyrogram.filters import filters
+from pyrogram import filters
 
 # the Telegram trackings
 from chatbase import Message
