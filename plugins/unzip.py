@@ -5,7 +5,7 @@
 # the logging things
 import logging
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                    format='%(asctime)s - %(name)s - %(levellevel)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 import os
@@ -23,13 +23,14 @@ else:
 from translation import Translation
 
 import pyrogram
+from pyrogram import filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from helper_funcs.chat_base import TRChatBase
 from helper_funcs.display_progress import progress_for_pyrogram, humanbytes
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.command(["unzip"]))
+@pyrogram.Client.on_message(pyrogram.filters.command(["unzip"]))
 async def unzip(bot, update):
     TRChatBase(update.from_user.id, update.text, "unzip")
     if str(update.from_user.id) not in Config.SUPER7X_DLBOT_USERS:
@@ -88,11 +89,9 @@ async def unzip(bot, update):
                     "-o" + extract_dir_path,
                     saved_file_path
                 ]
-                # https://stackoverflow.com/a/39629367/4723940
                 logger.info(command_to_exec)
                 t_response = subprocess.check_output(
                     command_to_exec, stderr=subprocess.STDOUT)
-                # https://stackoverflow.com/a/26178369/4723940
             except:
                 try:
                     os.remove(saved_file_path)
@@ -114,7 +113,7 @@ async def unzip(bot, update):
                 for current_file in zip_file_contents:
                     cb_string = "ZIP:{}:ZIP".format(str(i))
                     inline_keyboard.append([
-                        pyrogram.InlineKeyboardButton(
+                        pyrogram.types.InlineKeyboardButton(
                             current_file,
                             callback_data=cb_string.encode("UTF-8")
                         )
@@ -122,19 +121,19 @@ async def unzip(bot, update):
                     i = i + 1
                 cb_string = "ZIP:{}:ZIP".format("ALL")
                 inline_keyboard.append([
-                    pyrogram.InlineKeyboardButton(
+                    pyrogram.types.InlineKeyboardButton(
                         "Upload All Files",
                         callback_data=cb_string.encode("UTF-8")
                     )
                 ])
                 cb_string = "ZIP:{}:ZIP".format("NONE")
                 inline_keyboard.append([
-                    pyrogram.InlineKeyboardButton(
+                    pyrogram.types.InlineKeyboardButton(
                         "Cancel",
                         callback_data=cb_string.encode("UTF-8")
                     )
                 ])
-                reply_markup = pyrogram.InlineKeyboardMarkup(inline_keyboard)
+                reply_markup = pyrogram.types.InlineKeyboardMarkup(inline_keyboard)
                 await bot.edit_message_text(
                     chat_id=update.chat.id,
                     text=Translation.EXTRACT_ZIP_STEP_TWO,
@@ -146,4 +145,4 @@ async def unzip(bot, update):
             chat_id=update.chat.id,
             text=Translation.EXTRACT_ZIP_INTRO_ONE,
             reply_to_message_id=update.message_id
-        )
+                )
