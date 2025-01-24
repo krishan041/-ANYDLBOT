@@ -27,14 +27,18 @@ async def run_bot():
                             plugins=plugins)
     await Warrior.start()
 
-if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-
+async def main():
     app = web.Application()
     app.router.add_get('/', handle)
 
     port = int(os.environ.get("PORT", 8080))
-    
-    loop.create_task(run_bot())
-    web.run_app(app, port=port)
-    loop.run_forever()
+
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, '0.0.0.0', port)
+    await site.start()
+
+    await run_bot()
+
+if __name__ == "__main__":
+    asyncio.run(main())
