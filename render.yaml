@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: ANYDLBOT
+    env: python
+    plan: starter
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python3 bot.py"
+    envVars:
+      - key: WEBHOOK
+        value: false
+      - key: CHAT_BASE_TOKEN
+        value: false
+      - key: API_ID
+        value: false
+      - key: API_HASH
+        value: false
+      - key: BOT_TOKEN
+        value: false
