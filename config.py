@@ -38,3 +38,6 @@ class Config:
 
     # Premium user settings (if applicable)
     PREMIUM_USER = os.environ.get("PREMIUM_USER", "6428531614").strip()
+
+   # Chat base token
+    CHAT_BASE_TOKEN = os.environ.get("sk_3b8bf7f8bcf776f90f4995b065990cfbcd8cd2189faba85f").strip()
