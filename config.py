@@ -1,6 +1,4 @@
 import os
-export TG_BOT_TOKEN="your_bot_token_here"
-python bot.py
 
 class Config(object):
     # get a token from @BotFather
