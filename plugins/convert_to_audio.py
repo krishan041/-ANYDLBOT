@@ -40,7 +40,8 @@ from PIL import Image
 # Removed pydrive import and related code
 
 # Rest of the code remains unchanged
- @pyrogram.Client.on_message(pyrogram.filters.command(["converttoaudio"]))
+
+@pyrogram.Client.on_message(pyrogram.filters.command(["converttoaudio"]))
 async def convert_to_audio(bot, update):
     TRChatBase(update.from_user.id, update.text, "converttoaudio")
     if str(update.from_user.id) not in Config.SUPER_DLBOT_USERS:
@@ -142,4 +143,4 @@ async def convert_to_audio(bot, update):
             chat_id=update.chat.id,
             text=Translation.REPLY_TO_DOC_FOR_C2V,
             reply_to_message_id=update.message_id
-              )
+        )
