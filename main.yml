@@ -1,0 +1,38 @@
+name: Python Bot Workflow
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger the workflow on pull requests to the main branch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # Change this to the version of Python you are using
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run bot
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        API_ID: ${{ 27536109 }}
+        API_HASH: ${{ b84d7d4dfa33904d36b85e1ead16bd63 }}
+        DOWNLOAD_LOCATION: ${{ secrets.DOWNLOAD_LOCATION }}
+        OWNER_ID: ${{ 6428531614 }}
+        PREMIUM_USER: ${{ 6428531614 }}
+      run: python3 bot.py
