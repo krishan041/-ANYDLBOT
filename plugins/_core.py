@@ -25,6 +25,7 @@ else:
 from translation import Translation
 
 import pyrogram
+from pyrogram import filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from helper_funcs.chat_base import TRChatBase
@@ -37,7 +38,7 @@ from hachoir.parser import createParser
 from PIL import Image
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.regex(pattern=".*http.*"))
+@pyrogram.Client.on_message(filters.regex(pattern=".*http.*"))
 def echo(bot, update):
     # logger.info(update)
     TRChatBase(update.from_user.id, update.text, "/echo")
@@ -453,7 +454,7 @@ def button(bot, update):
                     reply_to_message_id=update.message.reply_to_message.message_id,
                     progress=progress_for_pyrogram,
                     progress_args=(
-                        Translation.UPLOAD_START, update.message.message_id, update.message.chat.i, startsd)
+                        Translation.UPLOAD_START, update.message.message_id, update.message.chat.id, starts)
                 )
             else:
                 logger.info("Did this happen? :\\")
@@ -462,9 +463,9 @@ def button(bot, update):
                 os.remove(thumb_image_path)
             except:
                 pass
-            bot.edit_message_text(
+                bot.edit_message_text(
                 text=Translation.AFTER_SUCCESSFUL_UPLOAD_MSG,
                 chat_id=update.message.chat.id,
                 message_id=update.message.message_id,
                 disable_web_page_preview=True
-            )
+                )
