@@ -26,7 +26,5 @@ class Config(object):
     # your telegram id
     OWNER_ID = int(os.environ.get("OWNER_ID", "6428531614"))
     SESSION_NAME = "UPLOADER-X-BOT"
-    # database uri (mongodb)
-    DATABASE_URL = os.environ.get("DATABASE_URL", "")
     MAX_RESULTS = "50"
     PREMIUM_USER = os.environ.get("PREMIUM_USER")
