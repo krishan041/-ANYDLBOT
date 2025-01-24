@@ -24,6 +24,7 @@ else:
 from translation import Translation
 
 import pyrogram
+from pyrogram import filters
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 from helper_funcs.chat_base import TRChatBase
@@ -31,14 +32,9 @@ from helper_funcs.display_progress import humanbytes
 from helper_funcs.help_uploadbot import DownLoadFile
 
 
-@pyrogram.Client.on_message(pyrogram.Filters.regex(pattern=".*http.*"))
+@pyrogram.Client.on_message(pyrogram.filters.regex(pattern=".*http.*"))
 async def echo(bot, update):
-    # logger.info(update)
     TRChatBase(update.from_user.id, update.text, "/echo")
-    # await bot.send_chat_action(
-    #     chat_id=update.chat.id,
-    #     action="typing"
-    # )
     if str(update.from_user.id) in Config.BANNED_USERS:
         await bot.edit_message_text(
             chat_id=update.message.chat.id,
@@ -49,7 +45,6 @@ async def echo(bot, update):
         )
         return
     if str(update.from_user.id) not in Config.UTUBE_BOT_USERS:
-        # restrict free users from sending more links
         if str(update.from_user.id) in Config.ADL_BOT_RQ:
             current_time = time.time()
             previous_time = Config.ADL_BOT_RQ[str(update.from_user.id)]
@@ -90,7 +85,6 @@ async def echo(bot, update):
             url = url.strip()
         if file_name is not None:
             file_name = file_name.strip()
-        # https://stackoverflow.com/a/761825/4723940
         if youtube_dl_username is not None:
             youtube_dl_username = youtube_dl_username.strip()
         if youtube_dl_password is not None:
@@ -128,22 +122,15 @@ async def echo(bot, update):
     if youtube_dl_password is not None:
         command_to_exec.append("--password")
         command_to_exec.append(youtube_dl_password)
-    # logger.info(command_to_exec)
     process = await asyncio.create_subprocess_exec(
         *command_to_exec,
-        # stdout must a pipe to be accessible as process.stdout
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
-    # Wait for the subprocess to finish
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
-    # logger.info(e_response)
     t_response = stdout.decode().strip()
-    # logger.info(t_response)
-    # https://github.com/rg3/youtube-dl/issues/2630#issuecomment-38635239
     if e_response and "nonnumeric port" not in e_response:
-        # logger.warn("Status : FAIL", exc.returncode, exc.output)
         error_message = e_response.replace("please report this issue on https://yt-dl.org/bug . Make sure you are using the latest version; see  https://yt-dl.org/update  on how to update. Be sure to call youtube-dl with the --verbose flag and include its complete output.", "")
         if "This video is only available for registered users." in error_message:
             error_message += Translation.SET_CUSTOM_USERNAME_PASSWORD
@@ -156,7 +143,6 @@ async def echo(bot, update):
         )
         return False
     if t_response:
-        # logger.info(t_response)
         x_reponse = t_response
         if "\n" in x_reponse:
             x_reponse, _ = x_reponse.split("\n")
@@ -165,7 +151,6 @@ async def echo(bot, update):
             "/" + str(update.from_user.id) + ".json"
         with open(save_ytdl_json_path, "w", encoding="utf8") as outfile:
             json.dump(response_json, outfile, ensure_ascii=False)
-        # logger.info(response_json)
         inline_keyboard = []
         duration = None
         if "duration" in response_json:
@@ -186,35 +171,24 @@ async def echo(bot, update):
                     "file", format_id, format_ext)
                 if format_string is not None and not "audio only" in format_string:
                     ikeyboard = [
-                        pyrogram.InlineKeyboardButton(
+                        pyrogram.types.InlineKeyboardButton(
                             "S " + format_string + " video " + approx_file_size + " ",
                             callback_data=(cb_string_video).encode("UTF-8")
                         ),
-                        pyrogram.InlineKeyboardButton(
+                        pyrogram.types.InlineKeyboardButton(
                             "D " + format_ext + " " + approx_file_size + " ",
                             callback_data=(cb_string_file).encode("UTF-8")
                         )
                     ]
-                    """if duration is not None:
-                        cb_string_video_message = "{}|{}|{}".format(
-                            "vm", format_id, format_ext)
-                        ikeyboard.append(
-                            pyrogram.InlineKeyboardButton(
-                                "VM",
-                                callback_data=(
-                                    cb_string_video_message).encode("UTF-8")
-                            )
-                        )"""
                 else:
-                    # special weird case :\
                     ikeyboard = [
-                        pyrogram.InlineKeyboardButton(
+                        pyrogram.types.InlineKeyboardButton(
                             "SVideo [" +
                             "] ( " +
                             approx_file_size + " )",
                             callback_data=(cb_string_video).encode("UTF-8")
                         ),
-                        pyrogram.InlineKeyboardButton(
+                        pyrogram.types.InlineKeyboardButton(
                             "DFile [" +
                             "] ( " +
                             approx_file_size + " )",
@@ -227,13 +201,13 @@ async def echo(bot, update):
                 cb_string_128 = "{}|{}|{}".format("audio", "128k", "mp3")
                 cb_string = "{}|{}|{}".format("audio", "320k", "mp3")
                 inline_keyboard.append([
-                    pyrogram.InlineKeyboardButton(
+                    pyrogram.types.InlineKeyboardButton(
                         "MP3 " + "(" + "64 kbps" + ")", callback_data=cb_string_64.encode("UTF-8")),
-                    pyrogram.InlineKeyboardButton(
+                    pyrogram.types.InlineKeyboardButton(
                         "MP3 " + "(" + "128 kbps" + ")", callback_data=cb_string_128.encode("UTF-8"))
                 ])
                 inline_keyboard.append([
-                    pyrogram.InlineKeyboardButton(
+                    pyrogram.types.InlineKeyboardButton(
                         "MP3 " + "(" + "320 kbps" + ")", callback_data=cb_string.encode("UTF-8"))
                 ])
         else:
@@ -244,11 +218,11 @@ async def echo(bot, update):
             cb_string_video = "{}|{}|{}".format(
                 "video", format_id, format_ext)
             inline_keyboard.append([
-                pyrogram.InlineKeyboardButton(
+                pyrogram.types.InlineKeyboardButton(
                     "SVideo",
                     callback_data=(cb_string_video).encode("UTF-8")
                 ),
-                pyrogram.InlineKeyboardButton(
+                pyrogram.types.InlineKeyboardButton(
                     "DFile",
                     callback_data=(cb_string_file).encode("UTF-8")
                 )
@@ -258,17 +232,16 @@ async def echo(bot, update):
             cb_string_video = "{}={}={}".format(
                 "video", format_id, format_ext)
             inline_keyboard.append([
-                pyrogram.InlineKeyboardButton(
+                pyrogram.types.InlineKeyboardButton(
                     "video",
                     callback_data=(cb_string_video).encode("UTF-8")
                 ),
-                pyrogram.InlineKeyboardButton(
+                pyrogram.types.InlineKeyboardButton(
                     "file",
                     callback_data=(cb_string_file).encode("UTF-8")
                 )
             ])
-        reply_markup = pyrogram.InlineKeyboardMarkup(inline_keyboard)
-        # logger.info(reply_markup)
+        reply_markup = pyrogram.types.InlineKeyboardMarkup(inline_keyboard)
         thumbnail = Config.DEF_THUMB_NAIL_VID_S
         thumbnail_image = Config.DEF_THUMB_NAIL_VID_S
         if "thumbnail" in response_json:
@@ -280,7 +253,7 @@ async def echo(bot, update):
             Config.DOWNLOAD_LOCATION + "/" +
             str(update.from_user.id) + ".jpg",
             Config.CHUNK_SIZE,
-            None,  # bot,
+            None,
             Translation.DOWNLOAD_START,
             update.message_id,
             update.chat.id
@@ -293,27 +266,26 @@ async def echo(bot, update):
             reply_to_message_id=update.message_id
         )
     else:
-        # fallback for nonnumeric port a.k.a seedbox.io
         inline_keyboard = []
         cb_string_file = "{}={}={}".format(
             "file", "LFO", "NONE")
         cb_string_video = "{}={}={}".format(
             "video", "OFL", "ENON")
         inline_keyboard.append([
-            pyrogram.InlineKeyboardButton(
+            pyrogram.types.InlineKeyboardButton(
                 "SVideo",
                 callback_data=(cb_string_video).encode("UTF-8")
             ),
-            pyrogram.InlineKeyboardButton(
+            pyrogram.types.InlineKeyboardButton(
                 "DFile",
                 callback_data=(cb_string_file).encode("UTF-8")
             )
         ])
-        reply_markup = pyrogram.InlineKeyboardMarkup(inline_keyboard)
+        reply_markup = pyrogram.types.InlineKeyboardMarkup(inline_keyboard)
         await bot.send_message(
             chat_id=update.chat.id,
             text=Translation.FORMAT_SELECTION.format(""),
             reply_markup=reply_markup,
             parse_mode="html",
             reply_to_message_id=update.message_id
-        )
+    )
