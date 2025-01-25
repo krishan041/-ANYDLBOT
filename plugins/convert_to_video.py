@@ -42,7 +42,7 @@ async def convert_to_video(bot, message):
     if str(message.from_user.id) not in Config.SUPER3X_DLBOT_USERS:
         await bot.send_message(
             chat_id=message.chat.id,
-            text=Translation.NOT_AUTH_USER_TEXT,
+            text=Translation.AUTH_USER_TEXT,
             reply_to_message_id=message.id
         )
         return
