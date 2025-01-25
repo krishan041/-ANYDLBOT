@@ -39,7 +39,7 @@ async def help_user(bot, update):
     await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.HELP_USER,
-        parse_mode="html",
+        parse_mode=None,
         disable_web_page_preview=True,
         reply_to_message_id=update.id
     )
@@ -55,7 +55,7 @@ async def get_me_info(bot, update):
     await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.CURENT_PLAN_DETAILS.format(chat_id, plan_type, expires_at),
-        parse_mode="html",
+        parse_mode=None,
         disable_web_page_preview=True,
         reply_to_message_id=update.id
     )
@@ -80,7 +80,7 @@ async def upgrade(bot, update):
     await bot.send_message(
         chat_id=update.chat.id,
         text=Translation.UPGRADE_TEXT,
-        parse_mode="html",
+        parse_mode=None,
         reply_to_message_id=update.id,
         disable_web_page_preview=True
     )
