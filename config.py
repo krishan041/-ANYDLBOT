@@ -40,4 +40,4 @@ class Config:
     PREMIUM_USER = os.environ.get("PREMIUM_USER", "6428531614").strip()
 
     # Chat base token
-    CHAT_BASE_TOKEN = os.environ.get("CHAT_BASE_TOKEN", "").strip()
+    CHAT_BASE_TOKEN = os.environ.get("CHAT_BASE_TOKEN", "-1002447298131").strip()
