@@ -2,6 +2,8 @@ import os
 
 class Config:
     SUPER7X_DLBOT_USERS = [6428531614]
+    SUPER3X_DLBOT_USERS = [6428531614]
+    BANNED_USERS = []
 
     # Telegram bot credentials from @BotFather
     BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
