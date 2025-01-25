@@ -1,3 +1,5 @@
+import os
+
 class Config:
     SUPER7X_DLBOT_USERS = [6428531614]
 
